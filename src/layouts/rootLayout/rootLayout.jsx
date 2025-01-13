@@ -1,4 +1,5 @@
-import './rootLayout.css'
+import {Link, Outlet} from "react-router-dom";
+import "./rootLayout.css";
 
 const RootLayout = () => {
     return (
@@ -14,7 +15,7 @@ const RootLayout = () => {
                 <Outlet/>
             </main>
         </div>
-    )
-}
+    );
+};
 
 export default RootLayout;
