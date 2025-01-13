@@ -6,6 +6,7 @@ import Homepage from './routes/homepage/homepage';
 import DashboardPage from './routes/dashboardpage/dashboardpage';
 import ChatPage from './routes/chatpage/chatpage';
 import RootLayout from './layouts/rootLayout/rootLayout';
+import DashboardLayout from './layouts/dashboardLayout/DashboardLayout';
 
 const router = createBrowserRouter([
  {
@@ -13,6 +14,19 @@ const router = createBrowserRouter([
   children: [
     {
       path: "/", element: <Homepage/>,
+    },
+    {
+      element: <DashboardLayout/>,
+      children: [
+        {
+          path: "/dashboard",
+          element: <DashboardPage/>
+        },
+        {
+          path: "/dashboard/chats/:id",
+          element: <ChatPage/>
+        },
+      ]
     },
   ],
  },
