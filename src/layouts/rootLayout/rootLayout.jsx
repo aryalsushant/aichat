@@ -9,8 +9,6 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key")
 }
 
-//debugging
-console.log("Publishable Key:", import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
 
 
 const RootLayout = () => {
