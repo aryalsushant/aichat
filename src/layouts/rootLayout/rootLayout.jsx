@@ -9,6 +9,8 @@ const RootLayout = () => {
                 <img src = "/logo.png" alt = "" />
                 <span>Brainrot AI</span>
                 </Link>
+
+                <div className="user">User</div>
             </header>
 
             <main>
