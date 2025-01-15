@@ -1,3 +1,3 @@
-# Lama Dev AI Chat Bot App Starter Setup
+# Brainrot AI (Chatgpt Clone)
 
-This template provides a minimal setup to get React 19 working in Vite with HMR and some ESLint rules.
+Project in Progress. Tech Stack: React, Express, MondoDB, Google Gemini AI, Clerk
