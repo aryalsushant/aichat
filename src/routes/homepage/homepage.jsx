@@ -13,7 +13,12 @@ const Homepage = () => {
             </div>
             <div className="right">
                 <div className="imgContainer">
-                    
+                    <div className="bgContainer">
+                        <div className="bg">
+                           
+                        </div>
+                    </div>
+                    <img src = "/bot.png" className = "bot"/>
                 </div>
             </div>
         </div>
