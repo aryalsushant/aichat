@@ -5,7 +5,7 @@ const DashboardPage = () => {
         <div className='dashboardpage'>
             <div className="texts">
                 <div className="logo">
-                    <img src="/ogo.png" alt="" />
+                    <img src="/logo.png" alt="" />
                     <h1>Brainrot AI</h1>
                 </div>
                 <div className="options">
