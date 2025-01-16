@@ -15,18 +15,25 @@ const DashboardPage = () => {
                     </div>
 
                     <div className="option">
-                        <img src="/chat.png" alt="" />
-                        <span>Create a New Chat</span>
+                        <img src="/image.png" alt="" />
+                        <span>Analyze Images</span>
                     </div>
 
                     <div className="option">
-                        <img src="/chat.png" alt="" />
-                        <span>Create a New Chat</span>
+                        <img src="/code.png" alt="" />
+                        <span>Help me with my code</span>
                     </div>
-                    
+
                 </div>
             </div>
-            <div className="formContainer"></div>
+            <div className="formContainer">
+                <form>
+                    <input type="text" placeholder = "Ask me anything" />
+                    <button>
+                        <img src="/arrow.png" alt="" />
+                    </button>
+                </form>
+            </div>
         </div>
     )
 }
