@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 const ChatList = () => {
    return (
     <div className="chatList">
-    <span className = "title">MENU</span>
+    <span className = "title">DASHBOARD</span>
     <Link to = "/dashboard">Create a new chat</Link>
-    <Link>Explore</Link>
+    <Link>Explore Brainrot AI</Link>
     <Link>Contact</Link>
 
     <hr/>
+    <span className = "title">RECENT CHATS</span>
     <div className="list">
         <Link>My chat title</Link>
         <Link>My chat title</Link>
