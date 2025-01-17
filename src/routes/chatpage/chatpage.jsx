@@ -4,11 +4,7 @@ import NewPrompt from '../../components/chatList/newPrompt/newPrompt';
 
 const ChatPage = () => {
 
-    const endRef = useRef(null);
-
-    useEffect(() => {
-        endRef.current.scrollIntoView({behavior: "smooth"})
-    })
+    
     return (
         <div className='chatpage'>
             <div className="wrapper">
@@ -32,7 +28,7 @@ const ChatPage = () => {
 
                     <NewPrompt/>
 
-                    <div ref = {endRef}/>
+                    
                 </div>
             </div>
         </div>
