@@ -12,9 +12,7 @@ const NewPrompt = () => {
         <>
         <div className="endChat" ref = {endRef}></div>
             <form className = "newForm" action="">
-                <label htmlFor="file">
-                    <img src="/attachment.png" alt="" />
-                </label>
+                <Upload /> //this is not visible and needs to be fixed
                 <input id = "file" type="file" multiple = {false} hidden />
                 <input type="text" placeholder='Ask anything...' />
                 <button>
