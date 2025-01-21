@@ -1,6 +1,9 @@
 import './newPrompt.css'
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Upload from "../upload/Upload";
+import { IKImage } from "imagekitio-react";
+import model from "../../lib/gemini";
+
 
 const NewPrompt = () => {
 
@@ -16,6 +19,11 @@ const NewPrompt = () => {
     useEffect(() => {
         endRef.current.scrollIntoView({behavior: "smooth"})
     }, [])
+
+    const add = async () => {
+        const prompt = "Tell me a one word story"
+
+    }
     return (
         <>
         {/*ADD NEW CHAT*/}
@@ -28,12 +36,8 @@ const NewPrompt = () => {
           transformation={[{ width: 380 }]}
         />
         )}
-        {question && <div className="message user">{question}</div>}
-        {answer && (
-        <div className="message">
-          <Markdown>{answer}</Markdown>
-        </div>
-         )}
+        
+        
         <div className="endChat" ref = {endRef}></div>
             <form className = "newForm" >
                 <Upload setImg = {setImg} /> 
