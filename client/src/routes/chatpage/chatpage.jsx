@@ -1,6 +1,6 @@
 //import { useEffect, useRef } from 'react';
 import './chatpage.css'
-import NewPrompt from '../../components/chatList/newPrompt/newPrompt';
+import NewPrompt from '../../components/newPrompt/newPrompt';
 
 const ChatPage = () => {
 
