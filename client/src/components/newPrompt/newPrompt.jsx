@@ -21,7 +21,10 @@ const NewPrompt = () => {
     }, [])
 
     const add = async () => {
-        const prompt = "Tell me a one word story"
+        const prompt = "Tell me a one word story";
+        const result = await result.response;
+        const text = response.text();
+        console.log(text);
 
     }
     return (
@@ -39,6 +42,9 @@ const NewPrompt = () => {
         
         
         <div className="endChat" ref = {endRef}></div>
+        {/**Add a chat button below this for testing */}
+
+
             <form className = "newForm" >
                 <Upload setImg = {setImg} /> 
                 <input id = "file" type="file" multiple = {false} hidden />
