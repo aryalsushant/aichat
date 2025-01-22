@@ -3,12 +3,13 @@ import { useRef, useEffect, useState } from 'react';
 import Upload from "../upload/Upload";
 import { IKImage } from "imagekitio-react";
 import model from "../../lib/gemini";
+import Markdown from "react-markdown";
 
 
 const NewPrompt = () => {
 
-    const[question, setQuestion] = useState("")
-    const[answer, setAnswer] = useState("")
+    const[question, setQuestion] = useState("");
+    const[answer, setAnswer] = useState("");
 
     const[img,setImg] = useState({
         isLoading: false,
@@ -23,10 +24,10 @@ const NewPrompt = () => {
         endRef.current.scrollIntoView({behavior: "smooth"})
     }, [])
 
-    const add = async () => {
+    const add = async (text) => {
         setQuestion(text);
 
-        const result = await model.generateContent(prompt);
+        const result = await model.generateContent(text);
         const response = await result.response;
         setAnswer(response.text())
         
@@ -34,7 +35,7 @@ const NewPrompt = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const text = e.target.text.value;
         if(!text) return;
@@ -58,11 +59,13 @@ const NewPrompt = () => {
         )}
 
         {question && <div className="message user">{question}</div>}
+        {question && <div className="message user">{question}</div>}
         {answer && (
         <div className="message">
           <Markdown>{answer}</Markdown>
         </div>
         )}
+        
         
         
        
