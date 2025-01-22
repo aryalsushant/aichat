@@ -17,7 +17,7 @@ const imagekit = new ImageKit({
 
 app.get("/api/upload",(req, res) => {
     const result = imagekit.getAuthenticationParameters();
-    res.send("it works!")
+    res.send("it works!");
 })
 
 app.listen(port, ()=> {
