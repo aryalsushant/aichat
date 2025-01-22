@@ -7,6 +7,9 @@ import model from "../../lib/gemini";
 
 const NewPrompt = () => {
 
+    const[question, setQuestion] = useState("")
+    const[answer, setAnswer] = useState("")
+
     const[img,setImg] = useState({
         isLoading: false,
         error: "",
@@ -21,12 +24,26 @@ const NewPrompt = () => {
     }, [])
 
     const add = async () => {
-        const prompt = "Tell me a one word story";
-        const result = await result.response;
-        const text = response.text();
-        console.log(text);
+        setQuestion(text);
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        setAnswer(response.text())
+        
 
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const text = e.target.text.value;
+        if(!text) return;
+
+        add(text)
+    }
+
+
+
     return (
         <>
         {/*ADD NEW CHAT*/}
@@ -39,16 +56,25 @@ const NewPrompt = () => {
           transformation={[{ width: 380 }]}
         />
         )}
+
+        {question && <div className="message user">{question}</div>}
+        {answer && (
+        <div className="message">
+          <Markdown>{answer}</Markdown>
+        </div>
+        )}
         
         
+       
         <div className="endChat" ref = {endRef}></div>
+        
         {/**Add a chat button below this for testing */}
 
 
-            <form className = "newForm" >
+            <form className = "newForm" onSubmit={handleSubmit}>
                 <Upload setImg = {setImg} /> 
                 <input id = "file" type="file" multiple = {false} hidden />
-                <input type="text" placeholder='Ask anything...' />
+                <input type="text" name = "text" placeholder='Ask anything...' />
                 <button>
                     <img src="/arrow.png" alt="" />
                 </button>
