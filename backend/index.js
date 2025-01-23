@@ -9,6 +9,7 @@ app.use(cors({
     origin: process.env.CLIENT_URL
 }));
 
+//either this
 const connect = async () => {
     try {
       await mongoose.connect(process.env.MONGO);
@@ -33,3 +34,5 @@ app.listen(port, () => {
     connect();
     console.log("Server running on 3000");
   });
+
+  //or this chunk needs work
