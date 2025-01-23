@@ -17,6 +17,22 @@ const NewPrompt = () => {
         dbData: {},
         aiData: {},
 
+    });
+
+    const chat = model.startChat({
+        history: [
+            {
+                role: "user",
+                parts: [{text: "Hello, I have two dogs in my house."}],
+            },
+            {
+                role: "model",
+                parts: [{text: "Hello, what would you like to know?"}],
+            },
+        ],
+        generationConfig: {
+            //maxOutputTokens: 100
+        },
     })
 
     const endRef = useRef(null);
@@ -30,7 +46,13 @@ const NewPrompt = () => {
 
         const result = await model.generateContent(Object.entries(img.aiData).length ? [img.aiData, text] : [text]);
         const response = await result.response;
-        setAnswer(response.text())
+        setAnswer(response.text());
+        setImg({
+            isLoading: false,
+            error: "",
+            dbData: {},
+            aiData: {},
+        });
         
 
     }
