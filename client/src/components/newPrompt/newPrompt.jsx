@@ -74,17 +74,9 @@ const NewPrompt = () => {
         const text = e.target.text.value;
         if(!text) return;
 
-        //add(text);
+        add(text);
 
-        await fetch("http://localhost:3000/api/chats",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({text})
-            }
-        )
+        
     }
 
 
