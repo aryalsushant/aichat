@@ -10,6 +10,8 @@ app.use(cors({
     origin: process.env.CLIENT_URL
 }));
 
+app.use(express.json())
+
 //either this
 const connect = async () => {
     try {
