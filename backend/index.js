@@ -31,6 +31,11 @@ app.get("/api/upload",(req, res) => {
     res.send("it works!");
 })
 
+app.post("/api/chats",(req, res) => {
+    const {text} = req.body
+    console.log(text);
+})
+
 app.listen(port, () => {
     connect();
     console.log("Server running on 3000");
