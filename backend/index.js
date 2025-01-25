@@ -1,7 +1,9 @@
 import express from "express";
 import ImageKit from "imagekit";
 import cors from "cors";
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
+import Chat from "./models/chat.js";
+import UserChats from "./models/userChats.js" 
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -47,6 +49,34 @@ app.post("/api/chats",async (req, res) => {
       });
 
       const savedChat = await newChat.save();
+
+      //Checking if the userchat exists
+      const userChats = await userChats.find({userId:userId});
+      //if it doesn't, we create a new one
+      if(!userChats.length){
+        const newUserChats = new userChats({
+          userId:userId,
+          chats: [
+            {
+              _id:savedChat.id,
+              title: text.substring(0,40),
+
+              
+            }
+          ]
+        });
+        await newUserChats.save();
+      }else {
+        //if it exists, we push it to existing array
+        await UserChats.updateOne({userId:userId}, {
+          $push: {
+            chats: {
+              _id:savedChat._id,
+              title: text.substring(0,40),
+            }
+          }
+        })
+      }
 
     }catch(err){
       console.log(err)
