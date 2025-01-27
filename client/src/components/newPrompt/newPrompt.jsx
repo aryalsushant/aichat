@@ -4,6 +4,7 @@ import Upload from "../upload/Upload";
 import { IKImage } from "imagekitio-react";
 import model from "../../lib/gemini";
 import Markdown from "react-markdown";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 const NewPrompt = () => {
@@ -39,7 +40,29 @@ const NewPrompt = () => {
 
     useEffect(() => {
         endRef.current.scrollIntoView({behavior: "smooth"})
-    }, [question, answer, img.dbData])
+    }, [question, answer, img.dbData]);
+
+    const queryClient = useQueryClient();
+
+  
+
+  const mutation = useMutation({
+    mutationFn: (text) => {
+      return fetch(`${import.meta.env.VITE_API_URL}/api/chats`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      }).then((res) => res.json());
+    },
+    onSuccess: (id) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["userChats"] });
+      navigate(`/dashboard/chats/${id}`);
+    },
+  });
 
     const add = async (text) => {
         setQuestion(text);
