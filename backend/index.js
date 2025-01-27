@@ -4,12 +4,14 @@ import cors from "cors";
 import mongoose from "mongoose";
 import Chat from "./models/chat.js";
 import UserChats from "./models/userChats.js" 
+import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 
 const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors({
-    origin: process.env.CLIENT_URL
+    origin: process.env.CLIENT_URL,
+    credentials: true,
 }));
 
 app.use(express.json())
@@ -30,12 +32,21 @@ const imagekit = new ImageKit({
     privateKey: process.env.IMAGE_KIT_PRIVATE_KEY
 });
 
+
+
 app.get("/api/upload",(req, res) => {
     const result = imagekit.getAuthenticationParameters();
     res.send("it works!");
 })
 
-app.post("/api/chats",async (req, res) => {
+app.get("/api/test", ClerkExpressRequireAuth(), (req, res) =>{
+  console.log("Success")
+  res.send("Success!")
+})
+
+app.post("/api/chats",
+  ClerkExpressRequireAuth(),
+  async (req, res) => {
     const {userId, text} = req.body
 
 
@@ -51,10 +62,10 @@ app.post("/api/chats",async (req, res) => {
       const savedChat = await newChat.save();
 
       //Checking if the userchat exists
-      const userChats = await userChats.find({userId:userId});
+      const userChats = await UserChats.find({userId:userId});
       //if it doesn't, we create a new one
       if(!userChats.length){
-        const newUserChats = new userChats({
+        const newUserChats = new UserChats({
           userId:userId,
           chats: [
             {
@@ -82,6 +93,11 @@ app.post("/api/chats",async (req, res) => {
       console.log(err)
       res.status(500).send("Error creating chat!")
     }
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(401).send("Unauthenticated!");
 });
 
 app.listen(port, () => {
