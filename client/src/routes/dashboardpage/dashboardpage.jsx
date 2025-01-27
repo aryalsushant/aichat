@@ -1,6 +1,9 @@
-import './dashboardpage.css'
+import './dashboardpage.css';
+import {useAuth} from "@clerk/clerk-react";
 
 const DashboardPage = () => {
+
+    const {userId} = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -10,10 +13,11 @@ const DashboardPage = () => {
         await fetch("http://localhost:3000/api/chats",
             {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type":"application/json"
                 },
-                body:JSON.stringify({text})
+                body:JSON.stringify({ text})
             }
         )
 
