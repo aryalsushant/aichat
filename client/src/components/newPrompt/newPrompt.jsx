@@ -7,6 +7,7 @@ import Markdown from "react-markdown";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
+
 const NewPrompt = ({data}) => {
 
     const[question, setQuestion] = useState("");
@@ -37,6 +38,10 @@ const NewPrompt = ({data}) => {
     })
 
     const endRef = useRef(null);
+    const formRef = useRef(null);
+
+
+
 
     useEffect(() => {
         endRef.current.scrollIntoView({behavior: "smooth"})
@@ -63,6 +68,8 @@ const NewPrompt = ({data}) => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["chat", data._id] }).then(()=>{
+
+        formRef.current.reset()
         setQuestion("")
         setAnswer("")
         setImg({
@@ -79,8 +86,8 @@ const NewPrompt = ({data}) => {
     }
   });
 
-    const add = async (text) => {
-        setQuestion(text);
+    const add = async (text, isInitial) => {
+        if (!isInitial) setQuestion(text);
 
         try{
             const result = await chat.sendMessageStream(
@@ -120,10 +127,24 @@ const NewPrompt = ({data}) => {
         const text = e.target.text.value;
         if(!text) return;
 
-        add(text);
+        add(text, false);
 
         
-    }
+    };
+
+    const hasRun = useRef(false);
+
+
+    useEffect(()=>{
+
+        if (!hasRun.current) {
+            if (data?.history?.length === 1){
+                add(data.history[0].parts[0].text, true)
+            }
+        }
+        hasRun.current = true;
+        
+    }, []);
 
 
 
@@ -156,7 +177,7 @@ const NewPrompt = ({data}) => {
         {/**Add a chat button below this for testing */}
 
 
-            <form className = "newForm" onSubmit={handleSubmit}>
+            <form className = "newForm" onSubmit={handleSubmit} ref = {formRef}>
                 <Upload setImg = {setImg} /> 
                 <input id = "file" type="file" multiple = {false} hidden />
                 <input type="text" name = "text" placeholder='Ask anything...' />
