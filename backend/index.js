@@ -6,7 +6,7 @@ import ImageKit from "imagekit";
 import mongoose from "mongoose";
 import Chat from "./models/chat.js";
 import UserChats from "./models/userChats.js";
-import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
+import { clerkMiddleware } from "@clerk/express";
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -14,12 +14,23 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Custom auth middleware that returns error instead of redirecting
+const requireAuth = (req, res, next) => {
+  if (!req.auth.userId) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+  next();
+};
+
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
+
+// Add Clerk middleware early in the chain
+app.use(clerkMiddleware());
 
 app.use(express.json());
 
@@ -43,7 +54,7 @@ app.get("/api/upload", (req, res) => {
   res.send(result);
 });
 
-app.post("/api/chats", ClerkExpressRequireAuth(), async (req, res) => {
+app.post("/api/chats", requireAuth, async (req, res) => {
   const userId = req.auth.userId;
   const { text } = req.body;
 
@@ -85,20 +96,24 @@ app.post("/api/chats", ClerkExpressRequireAuth(), async (req, res) => {
           },
         }
       );
-
-      res.status(201).send(newChat._id);
     }
+    
+    res.status(201).send(savedChat._id);
   } catch (err) {
     console.log(err);
     res.status(500).send("Error creating chat!");
   }
 });
 
-app.get("/api/userchats", ClerkExpressRequireAuth(), async (req, res) => {
+app.get("/api/userchats", requireAuth, async (req, res) => {
   const userId = req.auth.userId;
 
   try {
     const userChats = await UserChats.find({ userId });
+    
+    if (!userChats.length) {
+      return res.status(200).send([]);
+    }
 
     res.status(200).send(userChats[0].chats);
   } catch (err) {
@@ -107,7 +122,7 @@ app.get("/api/userchats", ClerkExpressRequireAuth(), async (req, res) => {
   }
 });
 
-app.get("/api/chats/:id", ClerkExpressRequireAuth(), async (req, res) => {
+app.get("/api/chats/:id", requireAuth, async (req, res) => {
   const userId = req.auth.userId;
 
   try {
@@ -120,7 +135,7 @@ app.get("/api/chats/:id", ClerkExpressRequireAuth(), async (req, res) => {
   }
 });
 
-app.put("/api/chats/:id", ClerkExpressRequireAuth(), async (req, res) => {
+app.put("/api/chats/:id", requireAuth, async (req, res) => {
   const userId = req.auth.userId;
 
   const { question, answer, img } = req.body;
@@ -150,6 +165,7 @@ app.put("/api/chats/:id", ClerkExpressRequireAuth(), async (req, res) => {
   }
 });
 
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(401).send("Unauthenticated!");
