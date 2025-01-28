@@ -16,8 +16,8 @@ const Homepage = () => {
     <div className="homepage">
       <img src="/orbital.png" alt="" className="orbital" />
       <div className="left">
-        <h1>Brainrot AI</h1>
-        <h2>Your friend to teach you GenZ Slang</h2>
+        <h1>Brot AI</h1>
+        <h2>Your AI Wingman for Speaking Gen Z Fluently</h2>
         <h3>
         Pull up and get fluent in Gen Z slang wit ya AI bestie! I’ll keep you in da loop, put you on trends, and level up ya text game. Whether you tryna vibe or just not be mad lost, I gotchu. No cap, it’s light work.
         </h3>

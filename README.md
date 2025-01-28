@@ -1,3 +1,3 @@
-# Brainrot AI (Chatbot)
+# Brot AI (Chatbot)
 
 Project in Progress. Tech Stack: React, Express, MondoDB, Google Gemini AI, Clerk
