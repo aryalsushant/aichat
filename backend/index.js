@@ -8,6 +8,8 @@ import Chat from "./models/chat.js";
 import UserChats from "./models/userChats.js";
 import { clerkMiddleware } from "@clerk/express";
 
+app.options("*", cors()); // Allow preflight requests for all routes
+
 const port = process.env.PORT || 3000;
 const app = express();
 
@@ -182,3 +184,5 @@ app.listen(port, () => {
   connect();
   console.log("Server running on 3000");
 });
+
+
